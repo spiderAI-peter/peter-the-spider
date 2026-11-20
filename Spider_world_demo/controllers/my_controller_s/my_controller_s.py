@@ -416,9 +416,7 @@ def crossbreeding (par1, par2):
         
     return child1, child2
 
-def mutation (child):
-    rate = 1 #%10
-    max_power = 0.2
+def mutation (child, rate, max_power):
     
     for x in child:
         if rd.randint(1,11) <= rate:
@@ -443,14 +441,14 @@ def create_child(generation, number, parent1, parent2,genes):
         "fitness": 0,
     }      
         
-def make_child(winner1, winner2, group):
+def make_child(winner1, winner2, group,mutation_rate, mutation_max_power):
     par1 = winner1["genes"]
     par2 = winner2["genes"]
     
     child1, child2 = crossbreeding (par1, par2)
-    
-    fin_child1 = mutation (child1)
-    fin_child2 = mutation (child2)
+
+    fin_child1 = mutation (child1,mutation_rate, mutation_max_power)
+    fin_child2 = mutation (child2,mutation_rate, mutation_max_power)
     
     generation = winner1["generation"]+1
     end_child1 = create_child(generation, group, winner1, winner2, fin_child1 )
@@ -479,6 +477,8 @@ for i in range(1, 25):
 for x in population:
     fitness_f(x)
 
+mutation_rate = 1 #%10
+mutation_max_power = 0.2
 size = 2
 wins = make_tournament_backets (population,size)
 for group in range (0,len(wins),2):
@@ -488,7 +488,7 @@ for group in range (0,len(wins),2):
     winner2 = rd.choice(wins)
     wins.remove (winner2)
     
-    make_child(winner1, winner2, group)
+    make_child(winner1, winner2, group,mutation_rate, mutation_max_power)
 
 
 
