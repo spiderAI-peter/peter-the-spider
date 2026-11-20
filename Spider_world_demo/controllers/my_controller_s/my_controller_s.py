@@ -385,9 +385,6 @@ def make_tournament_backets (population,size):
               
         winner.append(tournament(backets))
         
-        
-
-
 def tournament (backets):
     fit_values = []
     for x in backets:
@@ -468,7 +465,14 @@ for i in range(1, 25):
 
     population.append(individual)
 
+# =========================================================
+# sim starts
+# =========================================================
 
+
+# =========================================================
+# sim end
+# =========================================================
 
 
 
