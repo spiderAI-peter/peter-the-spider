@@ -345,7 +345,7 @@ def create_individual(generation, number,parent1 = None, parent2 = None,genes = 
 
         "generation": generation,
 
-        "parents": [parent1,parent2],
+        "parents": [parent1, parent2],
 
         "genes": new_or_random(genes),
                 
@@ -381,7 +381,7 @@ def fitness_f(individual):
     individual ["fitness"] = score
 
 #make size 2 for testing
-def make_tournament_backets (population,size):
+def make_tournament_backets (population, size):
     wins = []
     
     for _ in range (0,len(population),size):
@@ -427,7 +427,7 @@ def mutation (child, rate, max_power):
     
     for x in child:
         if rd.randint(1,11) <= rate:
-            x += rd.uniform(-max_power,max_power)
+            x += rd.uniform(-max_power, max_power)
        
         
 def make_child(winner1, winner2, group,mutation_rate, mutation_max_power):
@@ -441,7 +441,7 @@ def make_child(winner1, winner2, group,mutation_rate, mutation_max_power):
     
     generation = winner1["generation"]+1
     end_child1 = create_individual(generation, group, winner1, winner2, fin_child1 )
-    end_child2 =create_individual(generation,group+1, winner1, winner2, fin_child2 )
+    end_child2 =create_individual(generation, group+1, winner1, winner2, fin_child2 )
     
     return end_child1, end_child2
     
