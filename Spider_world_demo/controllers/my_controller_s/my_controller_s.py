@@ -332,16 +332,23 @@ def randam_rads ():
         frame.append(rd.uniform(-1, 1))
     return frame
 
-def create_individual(generation, number):
+def new_or_random(genes):
+    if genes == None:
+        [randam_rads() for _ in range(0, 12)],
+    else:
+        genes
+
+def create_individual(generation, number,parent1 = None, parent2 = None,genes = None):
 
     individual = {
         "id": f"G{generation}-R{number:03d}",
 
         "generation": generation,
 
-        "parents": [],
+        "parents": [parent1,parent2],
 
-        "genes": [randam_rads() for _ in range(0, 12)],
+        "genes": new_or_random(genes),
+                
         
         #for fitness evaluation
         "hights": [],
@@ -421,25 +428,7 @@ def mutation (child, rate, max_power):
     for x in child:
         if rd.randint(1,11) <= rate:
             x += rd.uniform(-max_power,max_power)
-    
-    
-def create_child(generation, number, parent1, parent2,genes):
-
-    individual = {
-        "id": f"G{generation}-R{number:03d}",
-
-        "generation": generation,
-
-        "parents": [parent1,parent2],
-
-        "genes": genes,
-        
-        #for fitness evaluation
-        "hights": [],
-        "distance": 0,
-        
-        "fitness": 0,
-    }      
+       
         
 def make_child(winner1, winner2, group,mutation_rate, mutation_max_power):
     par1 = winner1["genes"]
@@ -451,8 +440,8 @@ def make_child(winner1, winner2, group,mutation_rate, mutation_max_power):
     fin_child2 = mutation (child2,mutation_rate, mutation_max_power)
     
     generation = winner1["generation"]+1
-    end_child1 = create_child(generation, group, winner1, winner2, fin_child1 )
-    end_child2 =create_child(generation,group+1, winner1, winner2, fin_child2 )
+    end_child1 = create_individual(generation, group, winner1, winner2, fin_child1 )
+    end_child2 =create_individual(generation,group+1, winner1, winner2, fin_child2 )
     
     return end_child1, end_child2
     
