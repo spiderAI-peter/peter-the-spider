@@ -373,16 +373,31 @@ def fitness_f(individual):
     score = distance * hight_score
     individual ["fitness"] = score
 
-def tournament (round):
+#make size 2 for testing
+def make_tournament_backets (population,size):
+    winner = []
+    
+    for _ in range (0,len(population),size):
+        backets = []
+        for _ in range (0,size):
+            individual = rd.choice(population)
+            backets.append(individual)
+              
+        winner.append(tournament(backets))
+        
+        
+
+
+def tournament (backets):
     fit_values = []
-    for x in round:
+    for x in backets:
         fit_values.append (x["fitness"])
     
         
     highest = max(fit_values)
-    winner = round(fit_values(highest))
+    winner = backets(fit_values(highest))
     return winner
-        
+
 
 def crossbreeding (par1, par2):
     child1 = []
@@ -439,8 +454,10 @@ def make_child(winner1, winner2,group):
     fin_child2 = mutation (child2)
     
     generation = winner1["generation"]+1
-    create_child(generation, group, winner1, winner2, fin_child1 )
-    create_child(generation,group+1, winner1, winner2, fin_child1 )
+    end_child1 = create_child(generation, group, winner1, winner2, fin_child1 )
+    end_child2 =create_child(generation,group+1, winner1, winner2, fin_child2 )
+    
+    return end_child1, end_child2
     
 
 population = []
@@ -453,8 +470,6 @@ for i in range(1, 25):
 
 
 
-
-spider = fitness_f(individual)
 
 
 # =========================================================
