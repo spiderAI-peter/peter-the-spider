@@ -371,7 +371,7 @@ def fitness_f(individual):
     hight_score = 1 - (max(hights) - min(hights))
     
     score = distance * hight_score
-    return score
+    individual ["fitness"] = score
 
 def crossbreeding (par1, par2):
     child1 = []
