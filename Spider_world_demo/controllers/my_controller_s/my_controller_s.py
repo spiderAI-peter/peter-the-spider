@@ -373,6 +373,17 @@ def fitness_f(individual):
     score = distance * hight_score
     individual ["fitness"] = score
 
+def tournament (round):
+    fit_values = []
+    for x in round:
+        fit_values.append (x["fitness"])
+    
+        
+    highest = max(fit_values)
+    winner = round(fit_values(highest))
+    return winner
+        
+
 def crossbreeding (par1, par2):
     child1 = []
     child2 = []
