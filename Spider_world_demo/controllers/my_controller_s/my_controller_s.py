@@ -456,6 +456,9 @@ def make_child(winner1, winner2, group,mutation_rate, mutation_max_power):
     
     return end_child1, end_child2
     
+mutation_rate = 1 #%10
+mutation_max_power = 0.2
+size = 2
 
 population = []
 #create the first population 
@@ -477,9 +480,6 @@ for i in range(1, 25):
 for x in population:
     fitness_f(x)
 
-mutation_rate = 1 #%10
-mutation_max_power = 0.2
-size = 2
 wins = make_tournament_backets (population,size)
 for group in range (0,len(wins),2):
     winner1 = rd.choice(wins)
