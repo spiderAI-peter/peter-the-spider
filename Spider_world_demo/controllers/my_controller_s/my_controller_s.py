@@ -375,7 +375,7 @@ def fitness_f(individual):
 
 #make size 2 for testing
 def make_tournament_backets (population,size):
-    winner = []
+    wins = []
     
     for _ in range (0,len(population),size):
         backets = []
@@ -383,7 +383,9 @@ def make_tournament_backets (population,size):
             individual = rd.choice(population)
             backets.append(individual)
               
-        winner.append(tournament(backets))
+        wins.append(tournament(backets))
+    
+    return wins
         
 def tournament (backets):
     fit_values = []
@@ -441,7 +443,7 @@ def create_child(generation, number, parent1, parent2,genes):
         "fitness": 0,
     }      
         
-def make_child(winner1, winner2,group):
+def make_child(winner1, winner2, group):
     par1 = winner1["genes"]
     par2 = winner2["genes"]
     
@@ -473,6 +475,20 @@ for i in range(1, 25):
 # =========================================================
 # sim end
 # =========================================================
+
+for x in population:
+    fitness_f(x)
+
+size = 2
+wins = make_tournament_backets (population,size)
+for group in range (0,len(wins),2):
+    winner1 = rd.choice(wins)
+    wins.remove (winner1)
+    
+    winner2 = rd.choice(wins)
+    wins.remove (winner2)
+    
+    make_child(winner1, winner2, group)
 
 
 
