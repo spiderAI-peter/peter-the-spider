@@ -373,8 +373,8 @@ def create_individual(generation, number,parent1 = None, parent2 = None,genes = 
 # 
 
 def fitness_f(individual):
-    distance = individual[distance]
-    hights = individual[hights]
+    distance = individual["distance"]
+    hights = individual["hights"]
     hight_score = 1 - (max(hights) - min(hights))
     
     score = distance * hight_score
@@ -439,7 +439,7 @@ def make_child(winner1, winner2, group,mutation_rate, mutation_max_power):
     fin_child1 = mutation (child1,mutation_rate, mutation_max_power)
     fin_child2 = mutation (child2,mutation_rate, mutation_max_power)
     
-    generation = winner1["generation"]+1
+    generation = winner1["generation"] + 1
     end_child1 = create_individual(generation, group, winner1, winner2, fin_child1 )
     end_child2 =create_individual(generation, group+1, winner1, winner2, fin_child2 )
     
@@ -460,6 +460,7 @@ for i in range(1, 25):
 # =========================================================
 # sim starts
 # =========================================================
+
 
 
 # =========================================================
