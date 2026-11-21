@@ -332,7 +332,7 @@ def randam_rads ():
         frame.append(rd.uniform(-1, 1))
     return frame
 
-def new_or_random(genes):
+def new_or_given(genes):
     if genes == None:
         [randam_rads() for _ in range(0, 12)],
     else:
@@ -347,7 +347,7 @@ def create_individual(generation, number,parent1 = None, parent2 = None,genes = 
 
         "parents": [parent1, parent2],
 
-        "genes": new_or_random(genes),
+        "genes": new_or_given(genes),
                 
         
         #for fitness evaluation
