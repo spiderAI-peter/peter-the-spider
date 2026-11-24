@@ -501,7 +501,13 @@ for i in range(1, 25):
 # sim starts
 # =========================================================
 
+#things to know about sim
+#you will need to recoded things for fitness 
+#like the hight at x intivales 
+#the distance it travled 
+#if it fell 
 
+#also when doing the moving remember 12 frames will be done 25 times for now 
 
 # =========================================================
 # sim end
