@@ -333,13 +333,33 @@ def randam_rads ():
         frame.append(rd.uniform(-1, 1))
     return frame
 
-#adds in the new 
+#determinds if there are now genes and need to make new ones
+#or if it can just return the already made genes
+#when making a new one to start for now the spiders genes are 12 frames that will be 
+#cycled 25 times 
+#note: if this does not work the first thing you can do is make it the full 300 
+#could be slower but could make a big change
 def new_or_given(genes):
+    
     if genes == None:
-        return [randam_rads() for _ in range(0, 12)],
+        frames = 12
+        #should give x amount of frames 
+        #so the list is 2D:
+        # [[0.9,0.8,-0.6,....0.5],[0.6,.....],.....]
+        # [12 x [24 x numbers]]
+        return [randam_rads() for _ in range(0, frames)],
     else:
         return genes
 
+#this is what the individual "creature" holds
+#some things to id it and track where it came from
+#then the genes code such that 
+#after will be the items that will be recored during the sim
+#last is just teh fitness code
+
+#note parents will look like a tree in the end
+#not add more with fitness not all the stuff we need 
+#again fit function is NOT done
 def create_individual(generation, number,parent1 = None, parent2 = None,genes = None):
 
     individual = {
@@ -373,7 +393,8 @@ def create_individual(generation, number,parent1 = None, parent2 = None,genes = 
 # note: need more prob after testing
 # if it fall less points
 # 
-
+#this is not done and is almost meaninngless we need a proper one
+#DO SOMETHING
 def fitness_f(individual):
     distance = individual["distance"]
     hights = individual["hights"]
@@ -382,7 +403,10 @@ def fitness_f(individual):
     score = distance * hight_score
     individual ["fitness"] = score
 
-#make size 2 for testing
+
+#make size x for testing
+#just the brackets of being randomly made 
+#this can have repeats 
 def make_tournament_backets (population, size):
     wins = []
     
@@ -395,22 +419,29 @@ def make_tournament_backets (population, size):
         wins.append(tournament(backets))
     
     return wins
-        
+
+#when give the amount of individules find the one with highest fit 
+#value and selects them to win with the highest number
 def tournament (backets):
     fit_values = []
-    for x in backets:
-        fit_values.append (x["fitness"])
+    for individual in backets:
+        fit_values.append (individual["fitness"])
     
         
     highest = max(fit_values)
+    #this just find location of highest in the list and then collects 
+    #same number as the full individual infomation 
+    #more dumb - we get all the extra stuff like genes and parents
     winner = backets(fit_values(highest))
     return winner
 
-
+#given 2 partents and mix their genes around for each frame 
 def crossbreeding (par1, par2):
     child1 = []
     child2 = []
     for _ in range (0,12):
+        #the part of the frame is split diffrent for fun 
+        #if this breakes dont keep
         split = rd.randint(4,20)
         
         par_first_genes1 = par1[:split]
@@ -425,13 +456,20 @@ def crossbreeding (par1, par2):
         
     return child1, child2
 
+#gives a random chance to mutate change as you pled
 def mutation (child, rate, max_power):
     
     for x in child:
         if rd.randint(1,11) <= rate:
             x += rd.uniform(-max_power, max_power)
        
-        
+#just fun function put together to make a child
+#first collect genes 
+#crossbreed dem
+#mutation 
+#add 1 to gen counter for id
+#then create the next individuals with group used as ID in the generation 
+#G1-R3 for example is gen 1 and 3rd individual in gen
 def make_child(winner1, winner2, group,mutation_rate, mutation_max_power):
     par1 = winner1["genes"]
     par2 = winner2["genes"]
@@ -468,6 +506,7 @@ for i in range(1, 25):
 # =========================================================
 # sim end
 # =========================================================
+
 
 for x in population:
     fitness_f(x)
