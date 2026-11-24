@@ -507,7 +507,8 @@ for i in range(1, 25):
 # sim end
 # =========================================================
 
-
+#DONT bother running if you have not made sim first 
+#i dont know why youy tried looking when things have all nothing or 0
 for x in population:
     fitness_f(x)
 
