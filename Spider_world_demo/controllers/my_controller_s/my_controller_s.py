@@ -326,17 +326,19 @@ while robot.step(timestep) != -1:
 # GA start 
 # =========================================================
 
+#creates angles values at random 
 def randam_rads ():
     frame = []
     for _ in range (0,24):
         frame.append(rd.uniform(-1, 1))
     return frame
 
+#adds in the new 
 def new_or_given(genes):
     if genes == None:
-        [randam_rads() for _ in range(0, 12)],
+        return [randam_rads() for _ in range(0, 12)],
     else:
-        genes
+        return genes
 
 def create_individual(generation, number,parent1 = None, parent2 = None,genes = None):
 
