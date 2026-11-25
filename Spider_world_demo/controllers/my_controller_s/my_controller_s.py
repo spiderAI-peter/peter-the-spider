@@ -421,7 +421,7 @@ def make_tournament_backets (population, size):
 def tournament (backets):
     fit_values = []
     for individual in backets:
-        fit_values.append (individual["fitness"])
+        fit_values.append (individual.fitness)
     
         
     highest = max(fit_values)
@@ -435,16 +435,19 @@ def tournament (backets):
 def crossbreeding (par1, par2):
     child1 = []
     child2 = []
-    for _ in range (0,12):
+    
+    par_split1 = par1.split()
+    par_split2 = par2.split()
+    for x in range (0,12):
         #the part of the frame is split diffrent for fun 
         #if this breakes dont keep
         split = rd.randint(4,20)
         
-        par_first_genes1 = par1[:split]
-        par_sec_genes1 = par1[split:]
+        par_first_genes1 = par_split1[x][:split]
+        par_sec_genes1 = par_split1[x][split:]
         
-        par_first_genes2 = par2[:split]
-        par_sec_genes2 = par2[split:]
+        par_first_genes2 = par_split2[x][:split]
+        par_sec_genes2 = par_split2[x][split:]
         
         
         child1.append(par_first_genes1 + par_sec_genes2)
@@ -455,9 +458,10 @@ def crossbreeding (par1, par2):
 #gives a random chance to mutate change as you pled
 def mutation (child, rate, max_power):
     
-    for x in child:
-        if rd.randint(1,11) <= rate:
-            x += rd.uniform(-max_power, max_power)
+    for frame in child:
+        for gene in frame:
+            if rd.randint(1,11) <= rate:
+                gene += rd.uniform(-max_power, max_power)
        
 #just fun function put together to make a child
 #first collect genes 
@@ -467,8 +471,8 @@ def mutation (child, rate, max_power):
 #then create the next individuals with group used as ID in the generation 
 #G1-R3 for example is gen 1 and 3rd individual in gen
 def make_child(winner1, winner2, group,mutation_rate, mutation_max_power):
-    par1 = winner1["genes"]
-    par2 = winner2["genes"]
+    par1 = winner1.genes
+    par2 = winner2.genes
     
     child1, child2 = crossbreeding (par1, par2)
 
@@ -476,8 +480,8 @@ def make_child(winner1, winner2, group,mutation_rate, mutation_max_power):
     fin_child2 = mutation (child2,mutation_rate, mutation_max_power)
     
     generation = winner1["generation"] + 1
-    end_child1 = create_individual(generation, group, winner1, winner2, fin_child1 )
-    end_child2 =create_individual(generation, group+1, winner1, winner2, fin_child2 )
+    end_child1 = spider(generation, group, winner1, winner2, fin_child1 )
+    end_child2 = spider(generation, group+1, winner1, winner2, fin_child2 )
     
     return end_child1, end_child2
     
@@ -489,7 +493,7 @@ population = []
 #create the first population 
 for i in range(1, 25):
 
-    individual = create_individual(1, i)
+    individual = spider(1, i)
 
     population.append(individual)
 
@@ -512,7 +516,7 @@ for i in range(1, 25):
 #DONT bother running if you have not made sim first 
 #i dont know why youy tried looking when things have all nothing or 0
 for x in population:
-    fitness_f(x)
+    x.fitness_f()
 
 wins = make_tournament_backets (population,size)
 for group in range (0,len(wins),2):
