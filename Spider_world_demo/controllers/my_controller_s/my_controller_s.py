@@ -509,6 +509,55 @@ for i in range(1, 25):
 
 #also when doing the moving remember 12 frames will be done 25 times for now 
 
+TARGET_ANGLES = { # this is setting the original target angles from the standing animation this in teroy is what we want to put the GA on
+
+    "R": {
+        "hip_joint": 0.0,
+        "thigh_joint": 1.07,
+        "knee_joint": -0.58
+    },
+
+    "L": {
+        "hip_joint": 0.0,
+        "thigh_joint": -1.07,
+        "knee_joint": 0.58
+    }
+}
+
+
+print("") # this is the code that ioannis gave us to set up the moters so this persumibly is also where we want to apply the GA 
+print("==============================================")
+print("SETTING WALKING POSITION'S")
+print("==============================================")
+
+
+for side, leg_list in [
+    ("R", right_legs),
+    ("L", left_legs)
+]:
+
+    angles = TARGET_ANGLES[side]
+
+    for leg in leg_list:
+
+        motors[
+            f"{leg}_hip_joint"
+        ].setPosition(
+            angles["hip_joint"]
+        )
+
+        motors[
+            f"{leg}_thigh_joint"
+        ].setPosition(
+            angles["thigh_joint"]
+        )
+
+        motors[
+            f"{leg}_knee_joint"
+        ].setPosition(
+            angles["knee_joint"]
+        )
+
 # =========================================================
 # sim end
 # =========================================================
