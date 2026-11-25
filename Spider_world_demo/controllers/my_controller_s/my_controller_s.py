@@ -543,11 +543,14 @@ for side, leg_list in [
     
     walinkg_cycle = spider (angles)# this if i think im remembering classes corectly and if what ive googled is correct this should be the base line 
     
-    walinkg_cycle_2 = spider (position)
+    walinkg_cycle_2 = spider (position) # this should in theroy be apply the spider class to the position i think im suposed to do this.
 
     backets = make_tournament_backets (walinkg_cycle, size) # think this is correct still flying buy the seat of my pants i dont know what im doing but to my knowlege this should in theroy apply the tormaent on the  walking cycle onto 
 
     tournament_backets = tournament (backets) # this should in theroy apply the tournament function onto the torment barckets 
+
+    backets_2 = make_tournament_backets (walinkg_cycle_2, size) # this is applying the tornment  onto the position i think im ment to do this.
+    tournament_backets_2 = tournament (backets_2)
 
     for leg in leg_list:
 
