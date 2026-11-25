@@ -537,6 +537,10 @@ for side, leg_list in [
 ]:
 
     angles = TARGET_ANGLES[side]
+    
+    walinkg_cycle = spider (angles)# this if i think im remembering classes corectly and if what ive googled is correct this should be the base line 
+
+
 
     for leg in leg_list:
 
