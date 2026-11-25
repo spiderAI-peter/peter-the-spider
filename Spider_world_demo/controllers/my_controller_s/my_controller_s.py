@@ -537,6 +537,28 @@ print("==============================================")
 walinkg_cycle = spider (right_legs)
 walinkg_cycle_2 = spider (left_legs)
 
+backets = make_tournament_backets (walinkg_cycle, size)
+
+tournament_backets = tournament (backets)
+
+backets_2 = make_tournament_backets (walinkg_cycle, size)
+
+tournament_backets_2 = tournament (backets_2)
+
+backets_3 = make_tournament_backets (walinkg_cycle_2, size)
+
+tournament_backets_3 = tournament (backets_3)
+
+backets_4 = make_tournament_backets (walinkg_cycle_2, size)
+
+tournament_backets_4 = tournament (backets_4)
+
+winner1 = crossbreeding (tournament_backets, tournament_backets_2)
+
+winner2 = crossbreeding (tournament_backets_3, tournament_backets_4)
+
+make_child(winner1, winner2, all_legs,mutation_rate, mutation_max_power)
+
 
 for side, leg_list in [
     ("R", right_legs),
