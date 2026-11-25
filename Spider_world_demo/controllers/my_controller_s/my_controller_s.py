@@ -573,29 +573,29 @@ for side, child in [
 
     backets_5 = make_tournament_backets (walinkg_cycle_5, size) # think this is correct still flying buy the seat of my pants i dont know what im doing but to my knowlege this should in theroy apply the tormaent on the  walking cycle onto 
 
-    tournament_backets = tournament (backets_5) # this should in theroy apply the tournament function onto the torment barckets 
+    tournament_backets_5 = tournament (backets_5) # this should in theroy apply the tournament function onto the torment barckets 
 
     backets_6 = make_tournament_backets (walinkg_cycle_6, size) # this is applying the tornment  onto the position i think im ment to do this.
-    tournament_backets_2 = tournament (backets_6)
+    tournament_backets_6 = tournament (backets_6)
 
     for leg in child:
 
         motors[
             f"{leg}_hip_joint"
         ].setPosition( 
-            angles["hip_joint"]
+            tournament_backets_5["hip_joint"]
         )
 
         motors[
             f"{leg}_thigh_joint"
         ].setPosition(
-            angles["thigh_joint"]
+            tournament_backets_5["thigh_joint"]
         )
 
         motors[
             f"{leg}_knee_joint"
         ].setPosition(
-            angles["knee_joint"]
+            tournament_backets_5["knee_joint"]
         )
 
 # =========================================================
