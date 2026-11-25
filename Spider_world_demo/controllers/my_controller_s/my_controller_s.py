@@ -533,6 +533,7 @@ print("==============================================")
 print("SETTING WALKING POSITION'S")
 print("==============================================")
 
+# i am adding the spider class to the legs i think this is what we are suposed to do to get it working i think
 walinkg_cycle = spider (right_legs)
 walinkg_cycle_2 = spider (left_legs)
 
