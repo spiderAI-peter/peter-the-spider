@@ -524,6 +524,9 @@ TARGET_ANGLES = { # this is setting the original target angles from the standing
     }
 }
 
+position = gps.getValues()
+
+current_z = position[2]
 
 print("") # this is the code that ioannis gave us to set up the moters so this persumibly is also where we want to apply the GA 
 print("==============================================")
@@ -540,6 +543,8 @@ for side, leg_list in [
     
     walinkg_cycle = spider (angles)# this if i think im remembering classes corectly and if what ive googled is correct this should be the base line 
     
+    walinkg_cycle_2 = spider (position)
+
     backets = make_tournament_backets (walinkg_cycle, size) # think this is correct still flying buy the seat of my pants i dont know what im doing but to my knowlege this should in theroy apply the tormaent on the  walking cycle onto 
 
     tournament_backets = tournament (backets) # this should in theroy apply the tournament function onto the torment barckets 
