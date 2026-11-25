@@ -326,12 +326,40 @@ while robot.step(timestep) != -1:
 # GA start 
 # =========================================================
 
+class spider ():
+
+#this is what the individual "creature" holds
+#some things to id it and track where it came from
+#then the genes code such that 
+#after will be the items that will be recored during the sim
+#last is just the fitness code
+
+#note parents will look like a tree in the end
+#not add more with fitness not all the stuff we need 
+#again fit function is NOT done
+    def __init__(self,generation, number,parent1 = None, parent2 = None,genes = None):
+        self.id=  f"G{generation}-R{number:03d}"
+        
+        self.generation = generation
+        
+        self.mother = parent1
+        self.father = parent2
+        
+        self.genes = self.new_or_given(genes)
+                        
+                
+        #for fitness evaluation
+        self.hights  = []
+        self.distance = 0
+                
+        self.fitness = 0
+        
 #creates angles values at random 
-def randam_rads ():
-    frame = []
-    for _ in range (0,24):
-        frame.append(rd.uniform(-1, 1))
-    return frame
+    def randam_rads(self):
+        frame = []
+        for _ in range (0,24):
+            frame.append(rd.uniform(-1, 1))
+        return frame
 
 #determinds if there are now genes and need to make new ones
 #or if it can just return the already made genes
@@ -339,48 +367,17 @@ def randam_rads ():
 #cycled 25 times 
 #note: if this does not work the first thing you can do is make it the full 300 
 #could be slower but could make a big change
-def new_or_given(genes):
-    
-    if genes == None:
-        frames = 12
-        #should give x amount of frames 
-        #so the list is 2D:
-        # [[0.9,0.8,-0.6,....0.5],[0.6,.....],.....]
-        # [12 x [24 x numbers]]
-        return [randam_rads() for _ in range(0, frames)],
-    else:
-        return genes
-
-#this is what the individual "creature" holds
-#some things to id it and track where it came from
-#then the genes code such that 
-#after will be the items that will be recored during the sim
-#last is just teh fitness code
-
-#note parents will look like a tree in the end
-#not add more with fitness not all the stuff we need 
-#again fit function is NOT done
-def create_individual(generation, number,parent1 = None, parent2 = None,genes = None):
-
-    individual = {
-        "id": f"G{generation}-R{number:03d}",
-
-        "generation": generation,
-
-        "parents": [parent1, parent2],
-
-        "genes": new_or_given(genes),
-                
+    def new_or_given(self,genes):
         
-        #for fitness evaluation
-        "hights": [],
-        "distance": 0,
-        
-        "fitness": 0,
-    }
-
-    return individual
-
+        if genes == None:
+            frames = 12
+            #should give x amount of frames 
+            #so the list is 2D:
+            # [[0.9,0.8,-0.6,....0.5],[0.6,.....],.....]
+            # [12 x [24 x numbers]]
+            return [self.randam_rads() for _ in range(0, frames)],
+        else:
+            return genes
 
 #fitness functions 
 #link to vid where some things could be based on e.g hight staying the same ish
@@ -395,13 +392,12 @@ def create_individual(generation, number,parent1 = None, parent2 = None,genes = 
 # 
 #this is not done and is almost meaninngless we need a proper one
 #DO SOMETHING
-def fitness_f(individual):
-    distance = individual["distance"]
-    hights = individual["hights"]
-    hight_score = 1 - (max(hights) - min(hights))
-    
-    score = distance * hight_score
-    individual ["fitness"] = score
+    def fitness_f(self):
+        distance = self.distance
+        hights = self.hights
+        hight_score = 1 - (max(hights) - min(hights))
+        
+        self.fitness = distance * hight_score
 
 
 #make size x for testing
