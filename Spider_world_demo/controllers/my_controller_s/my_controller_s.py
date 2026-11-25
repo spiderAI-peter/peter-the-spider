@@ -578,7 +578,7 @@ for side, child in [
     backets_2 = make_tournament_backets (walinkg_cycle_4, size) # this is applying the tornment  onto the position i think im ment to do this.
     tournament_backets_2 = tournament (backets_2)
 
-    for leg in leg_list:
+    for leg in child:
 
         motors[
             f"{leg}_hip_joint"
