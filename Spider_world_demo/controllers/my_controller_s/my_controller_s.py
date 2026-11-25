@@ -567,16 +567,16 @@ for side, child in [
 
     angles = TARGET_ANGLES[side]
     
-    walinkg_cycle_3 = spider (angles)# this if i think im remembering classes corectly and if what ive googled is correct this should be the base line 
+    walinkg_cycle_5 = spider (angles)# this if i think im remembering classes corectly and if what ive googled is correct this should be the base line 
     
-    walinkg_cycle_4 = spider (position) # this should in theroy be apply the spider class to the position i think im suposed to do this.
+    walinkg_cycle_6 = spider (position) # this should in theroy be apply the spider class to the position i think im suposed to do this.
 
-    backets = make_tournament_backets (walinkg_cycle_3, size) # think this is correct still flying buy the seat of my pants i dont know what im doing but to my knowlege this should in theroy apply the tormaent on the  walking cycle onto 
+    backets_5 = make_tournament_backets (walinkg_cycle_5, size) # think this is correct still flying buy the seat of my pants i dont know what im doing but to my knowlege this should in theroy apply the tormaent on the  walking cycle onto 
 
-    tournament_backets = tournament (backets) # this should in theroy apply the tournament function onto the torment barckets 
+    tournament_backets = tournament (backets_5) # this should in theroy apply the tournament function onto the torment barckets 
 
-    backets_2 = make_tournament_backets (walinkg_cycle_4, size) # this is applying the tornment  onto the position i think im ment to do this.
-    tournament_backets_2 = tournament (backets_2)
+    backets_6 = make_tournament_backets (walinkg_cycle_6, size) # this is applying the tornment  onto the position i think im ment to do this.
+    tournament_backets_2 = tournament (backets_6)
 
     for leg in child:
 
