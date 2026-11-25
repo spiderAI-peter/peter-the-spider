@@ -560,7 +560,7 @@ winner2 = crossbreeding (tournament_backets_3, tournament_backets_4)
 child = make_child(winner1, winner2, all_legs,mutation_rate, mutation_max_power)
 
 
-for side, leg_list in [
+for side, child in [
     ("R", right_legs),
     ("L", left_legs)
 ]:
