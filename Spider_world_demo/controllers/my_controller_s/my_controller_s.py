@@ -626,6 +626,131 @@ print(
     f"Current Z = {current_z:.4f} m"
 )
 
+
+right_thigh = TARGET_ANGLES["R"]["thigh_joint"]
+right_knee = TARGET_ANGLES["R"]["knee_joint"]
+
+left_thigh = TARGET_ANGLES["L"]["thigh_joint"]
+left_knee = TARGET_ANGLES["L"]["knee_joint"]
+
+
+# =========================================================
+# LOWER ROBOT
+# =========================================================
+
+print("")
+print("==============================================")
+print("MOVEING ROBOT")
+print("==============================================")
+print("")
+
+
+TARGET_Z = 0.300
+
+
+while robot.step(timestep) != -1:
+
+    # -----------------------------------------------------
+    # READ GPS
+    # -----------------------------------------------------
+
+    position = gps.getValues()
+
+    current_z = position[2]
+
+
+    # -----------------------------------------------------
+    # CHECK WHETHER TARGET HEIGHT HAS BEEN REACHED
+    # -----------------------------------------------------
+
+    if current_z >= TARGET_Z:
+
+        print("")
+        print("==============================================")
+        print("TARGET HEIGHT REACHED")
+        print("==============================================")
+
+        print(
+            f"GPS Z = {current_z:.4f} m"
+        )
+
+        break
+
+
+    # -----------------------------------------------------
+    # LOWER THE LEGS
+    # -----------------------------------------------------
+    #
+    # Right side:
+    #   thigh becomes more positive
+    #   knee becomes more negative
+    #
+    # Left side:
+    #   thigh becomes more negative
+    #   knee becomes more positive
+    #
+    # This increases the absolute movement symmetrically.
+    #
+    # -----------------------------------------------------
+
+    right_thigh += LOWER_STEP
+    right_knee -= LOWER_STEP
+
+    left_thigh -= LOWER_STEP
+    left_knee += LOWER_STEP
+
+
+    # -----------------------------------------------------
+    # COMMAND RIGHT LEGS
+    # -----------------------------------------------------
+
+    for leg in right_legs:
+
+        motors[
+            f"{leg}_thigh_joint"
+        ].setPosition(
+            right_thigh
+        )
+
+        motors[
+            f"{leg}_knee_joint"
+        ].setPosition(
+            right_knee
+        )
+
+
+    # -----------------------------------------------------
+    # COMMAND LEFT LEGS
+    # -----------------------------------------------------
+
+    for leg in left_legs:
+
+        motors[
+            f"{leg}_thigh_joint"
+        ].setPosition(
+            left_thigh
+        )
+
+        motors[
+            f"{leg}_knee_joint"
+        ].setPosition(
+            left_knee
+        )
+
+
+    # -----------------------------------------------------
+    # REPORT POSITION
+    # -----------------------------------------------------
+
+    print(
+        f"Z = {current_z:.4f} m | "
+        f"MOVEING R thigh = {math.degrees(right_thigh):.2f}° | "
+        f"MOVEING R knee = {math.degrees(right_knee):.2f}° | "
+        f"MOVEING L thigh = {math.degrees(left_thigh):.2f}° | "
+        f"MOVEING L knee = {math.degrees(left_knee):.2f}°"
+    )
+
+
 # =========================================================
 # sim end
 # =========================================================
