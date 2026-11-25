@@ -524,9 +524,6 @@ TARGET_ANGLES = { # this is setting the original target angles from the standing
     }
 }
 
-position = gps.getValues()
-
-current_z = position[2]
 
 print("") # this is the code that ioannis gave us to set up the moters so this persumibly is also where we want to apply the GA 
 print("==============================================")
@@ -569,14 +566,10 @@ for side, child in [
     
     walinkg_cycle_5 = spider (angles)# this if i think im remembering classes corectly and if what ive googled is correct this should be the base line 
     
-    walinkg_cycle_6 = spider (position) # this should in theroy be apply the spider class to the position i think im suposed to do this.
-
     backets_5 = make_tournament_backets (walinkg_cycle_5, size) # think this is correct still flying buy the seat of my pants i dont know what im doing but to my knowlege this should in theroy apply the tormaent on the  walking cycle onto 
 
     tournament_backets_5 = tournament (backets_5) # this should in theroy apply the tournament function onto the torment barckets 
 
-    backets_6 = make_tournament_backets (walinkg_cycle_6, size) # this is applying the tornment  onto the position i think im ment to do this.
-    tournament_backets_6 = tournament (backets_6)
 
     for leg in child:
 
@@ -597,6 +590,41 @@ for side, child in [
         ].setPosition(
             tournament_backets_5["knee_joint"]
         )
+
+
+position = gps.getValues()
+
+current_z = position[2]
+
+walinkg_cycle_6 = spider (position) # this should in theroy be apply the spider class to the position i think im suposed to do this.
+    
+backets_6 = make_tournament_backets (walinkg_cycle_6, size) # this is applying the tornment  onto the position i think im ment to do this.
+tournament_backets_6 = tournament (backets_6)
+
+
+
+
+print("")
+print("==============================================")
+print("INITIAL GPS POSITION")
+print("==============================================")
+print(
+    f"X = {tournament_backets_6[0]:.4f} m"
+)
+print(
+    f"Y = {tournament_backets_6[1]:.4f} m"
+)
+print(
+    f"Z = {position[2]:.4f} m"
+)
+
+print("")
+print(
+    f"Target Z = 0.3000 m"
+)
+print(
+    f"Current Z = {current_z:.4f} m"
+)
 
 # =========================================================
 # sim end
