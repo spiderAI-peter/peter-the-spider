@@ -575,11 +575,11 @@ def apply_frame(frame): # this should apply the frames
 
 def go_to_standing(secounds=1.5):
      
-    for name, angle in standing_pose.items():
+    for name, angle in standing_pose.items(): # this telles every angle to go back to its starting angle 
          if name in motors:
              motors[name].setPosition(angle)
 
-    for _ in range(int(secounds * 1000 / timestep)):
+    for _ in range(int(secounds * 1000 / timestep)):# this telles the spider to run the simulation every 1.5 seconds 
         if robot.step(timestep) == -1:
             return False
     return True
