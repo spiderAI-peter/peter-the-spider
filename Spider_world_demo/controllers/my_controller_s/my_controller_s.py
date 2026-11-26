@@ -554,7 +554,7 @@ def reset_robot(): # this function should reset the robot
 def get_frames(individual): #this function should get the frames for the robot 
 
     genes = individual.genes # this should get the indervidual geans 
-    if isinstance(genes, tuple):
+    if isinstance(genes, tuple): # this checks wether the geans varible is stored and if not dose it 
         genes = genes[0]
     return genes
 
@@ -568,10 +568,10 @@ def clamp_to_limits(motor, angle):# i think this should set the limits
     return max(low, min(high, angle))#this is suposed to keep the angle between the low and high of the angle 
 
 def apply_frame(frame): # this should apply the frames 
-    for name, gene in zip(joint_order, frame):
+    for name, gene in zip(joint_order, frame): #  this loops throgh both lists and pareing each moter name 
         if name in motors:
-            angle = standing_pose[name] + gene * gene_amplitude
-            motors[name].setPosition(clamp_to_limits(motors[name], angle))
+            angle = standing_pose[name] + gene * gene_amplitude # this is determing the angle of the legs.
+            motors[name].setPosition(clamp_to_limits(motors[name], angle)) # this is setting the position of the moters by useing the clamp_to_limits function
 
 def go_to_standing(secounds=1.5):
      
