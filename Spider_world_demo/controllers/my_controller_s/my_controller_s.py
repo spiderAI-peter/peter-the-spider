@@ -545,6 +545,13 @@ if spider_node is not None: # this is suposed to run the following commands if t
         start_translation = translation_filed.getSFVec3f() # this should recive the current 3D position of the spider 
         start_roatation = roatation_filed.getSFRotation() #this should fet the rotation of the robot 
 
+def reset_robot(): # this function should reset the robot 
+    if spider_node is not None:
+        translation_filed.setSFVec3f(start_translation) # this should update the 3d position of the robot 
+        roatation_filed.setSFRotation(start_roatation)# this will also update the robots 3d position
+        spider_node.resetPhysics()# this should call all the objects such as velocity 
+
+
 
 
 
