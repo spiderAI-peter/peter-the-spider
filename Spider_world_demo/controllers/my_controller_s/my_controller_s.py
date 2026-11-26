@@ -626,7 +626,7 @@ def evaluate(individual): # this should evaluate the hights and distances and if
 pop_size = len(population) # this determins the population size
 best = None # this is the begining of storeing the best spider.
 
-for gen in range(generations):
+for gen in range(generations): # this should repet this code once per generation
 
     print("")
     print("==============================================")
