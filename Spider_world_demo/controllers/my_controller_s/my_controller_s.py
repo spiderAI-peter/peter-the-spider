@@ -623,6 +623,26 @@ def evaluate(individual): # this should evaluate the hights and distances and if
 
     return True
 
+pop_size = len(population)
+best = None
+
+for gen in range(generations):
+
+    print("")
+    print("==============================================")
+    print(f"GENERATION {gen + 1}")
+    print("==============================================")
+
+    for individual in population:
+
+        reset_robot()
+
+        if not evaluate(individual):
+            exit()
+
+        individual.fitness_f()
+
+        
 
 
 # =========================================================
