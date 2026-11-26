@@ -633,11 +633,11 @@ for gen in range(generations): # this should repet this code once per generation
     print(f"GENERATION {gen + 1}")
     print("==============================================")
 
-    for individual in population:
+    for individual in population: #this puts the robot back to the start
 
-        reset_robot()
+        reset_robot() # this runs a test 
 
-        if not evaluate(individual):
+        if not evaluate(individual):# this calls the fitness function
             exit()
 
         individual.fitness_f()
@@ -645,24 +645,24 @@ for gen in range(generations): # this should repet this code once per generation
         print(
             f"{individual.id} | "
             f"distance traveld = {individual.distance:.3f} m | "
-            f"fitness = {individual.fitness:.4f}"
+            f"fitness = {individual.fitness:.4f}" # this shuld give the distance traveld
         )
 
-        best = max(population, key=lambda s: s.fitness)
+        best = max(population, key=lambda s: s.fitness) # this should give the best population
         print(f"Best of this generation: {best.id} fitness = {best.fitness:.4f}")
 
-        if gen == generations:
+        if gen == generations: # checks if gen == generations an if so then it brakes 
             break
 
         wins = []
-        while len(wins) < pop_size:
+        while len(wins) < pop_size:# makes the wins 
             wins += make_tournament_backets(population, size)
 
-        new_population = []
+        new_population = [] # defines the new poulation
 
         group = 1
 
-        while len(new_population) < pop_size and len(wins) >= 2:
+        while len(new_population) < pop_size and len(wins) >= 2: # this checks the new population against the original and fills it out
 
             winner1 = rd.choice(wins)
             wins.remove(winner1)
