@@ -518,6 +518,7 @@ fall_hight = 0.10 #this will define if the spider has fallen over
 
 frame_steps = max(1, int(frame_time * 1000 / timestep)) # this should determin the number of steps that the spider takes per frame 
 
+joint_types = ["hip_joint","thigh_joint","knee_joint"] # this is defining the types of joints 
 
 
 
