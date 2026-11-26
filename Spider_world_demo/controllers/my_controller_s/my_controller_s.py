@@ -551,6 +551,14 @@ def reset_robot(): # this function should reset the robot
         roatation_filed.setSFRotation(start_roatation)# this will also update the robots 3d position
         spider_node.resetPhysics()# this should call all the objects such as velocity 
 
+def get_frames(individual): #this function should get the frames for the robot 
+
+    genes = individual.genes # this should get the indervidual geans 
+    if isinstance(genes, tuple):
+        genes = genes[0]
+    return genes
+
+
 
 
 
