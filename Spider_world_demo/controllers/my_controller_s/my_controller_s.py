@@ -509,6 +509,14 @@ for i in range(1, 25):
 
 #also when doing the moving remember 12 frames will be done 25 times for now 
 
+gene_amplitude = 0.5 # this deffines the exstent of the legs movement
+frame_time = 0.25 # this diefines how long the frame lasts 
+cycles = 25 #  this is defining the number of cycles the frames should go thorgh 
+
+generations = 10
+fall_hight = 0.10 #this will define if the spider has fallen over
+
+
 
 
 # =========================================================
