@@ -542,7 +542,9 @@ spider_node = robot.getSelf() if hasattr(robot, "getSelf") else None # this is s
 if spider_node is not None: # this is suposed to run the following commands if the spider node is not none
         translation_filed = spider_node.getField("translation") # this is suposed to define the colome type and array
         roatation_filed = spider_node.getField("rotation")# this is getting values out of the colum type to get a filed 
-        
+        start_translation = translation_filed.getSFVec3f() # this should recive the current 3D position of the spider 
+        start_roatation = roatation_filed.getSFRotation() #this should fet the rotation of the robot 
+
 
 
 
