@@ -585,19 +585,19 @@ def go_to_standing(secounds=1.5):
     return True
 
 def evaluate(individual): # this should evaluate the hights and distances and if it fell
-    individual.genes = get_frames(individual)
+    individual.genes = get_frames(individual)# this unwraps the genes and saves them back to the spider.
 
-    individual.hights = []
+    individual.hights = [] # clears the spider before the test
     individual.distance = []
 
-    if not go_to_standing():
+    if not go_to_standing():# stands the spider up
         return False
 
     start = gps.getValues()
     fell = False
 
     for cycle in range(cycles):
-        for frame in individual.genes:
+        for frame in individual.genes: 
 
             apply_frame(frame)
 
