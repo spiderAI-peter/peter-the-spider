@@ -539,6 +539,8 @@ for motor in motors.values():
 
 spider_node = robot.getSelf() if hasattr(robot, "getSelf") else None # this is setting up the spider node it is ment to chech if robot and get slef exsits
 
+if spider_node is not None: # this is suposed to run the following commands if the spider node is not none
+        translation_filed = spider_node.getField("translation") # this is suposed to define the colome type and array
 
 
 
