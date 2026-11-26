@@ -558,6 +558,14 @@ def get_frames(individual): #this function should get the frames for the robot
         genes = genes[0]
     return genes
 
+def clamp_to_limits(motor, angle):# i think this should set the limits 
+    low = motor.getMinPosition() # this gets the minmum position that the moter can achive 
+    high =  motor.getMaxPosition() # this should get the moters maximum position 
+
+    if low == 0 and high == 0:
+        return angle
+
+    return max(low, min(high, angle))
 
 
 
