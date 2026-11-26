@@ -537,6 +537,9 @@ for leg in left_legs:
 for motor in motors.values():
     motor.setVelocity(motor.getMaxVelocity()) # this should set the moters volocity and make it moveing 
 
+spider_node = robot.getSelf() if hasattr(robot, "getSelf") else None # this is setting up the spider node it is ment to chech if robot and get slef exsits
+
+
 
 
 
