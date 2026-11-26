@@ -584,7 +584,7 @@ def go_to_standing(secounds=1.5):
             return False
     return True
 
-def evaluate(individual):
+def evaluate(individual): # this should evaluate the hights and distances and if it fell
     individual.genes = get_frames(individual)
 
     individual.hights = []
