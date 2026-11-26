@@ -534,6 +534,11 @@ for leg in left_legs:
     standing_pose[f"{leg}_thigh_joint"] = left_thigh # this adds left thight to the standing pose directory 
     standing_pose[f"{leg}_knee_joint"] = left_knee # this adds left knee to the standing pose directory 
 
+for motor in motors.values():
+    motor.setVelocity(motor.getMaxVelocity()) # this should set the moters volocity and make it moveing 
+
+
+
 
 # =========================================================
 # sim end
