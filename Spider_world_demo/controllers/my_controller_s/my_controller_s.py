@@ -573,7 +573,16 @@ def apply_frame(frame): # this should apply the frames
             angle = standing_pose[name] + gene * gene_amplitude
             motors[name].setPosition(clamp_to_limits(motors[name], angle))
 
+def go_to_standing(secounds=1.5):
+     
+    for name, angle in standing_pose.items():
+         if name in motors:
+             motors[name].setPosition(angle)
 
+    for _ in range(int(secounds * 1000 / timestep)):
+        if robot.step(timestep) == -1:
+            return False
+    return True
 
 
 
