@@ -677,6 +677,20 @@ for gen in range(generations):
 
         population = new_population
 
+print("")
+print("==============================================")
+print(f"REPLAYING BEST: {best.id}  fitness = {best.fitness:.4f}")
+print("==============================================")
+
+reset_robot()
+go_to_standing()
+
+while True:
+    for frame in get_frames(best):
+        apply_frame(frame)
+        for _ in range(frame_steps):
+            if robot.step(timestep) == -1:
+                exit
 
 
         
