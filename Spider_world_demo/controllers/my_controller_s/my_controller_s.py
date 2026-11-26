@@ -642,6 +642,43 @@ for gen in range(generations):
 
         individual.fitness_f()
 
+        print(
+            f"{individual.id} | "
+            f"distance traveld = {individual.distance:.3f} m | "
+            f"fitness = {individual.fitness:.4f}"
+        )
+
+        best = max(population, key=lambda s: s.fitness)
+        print(f"Best of this generation: {best.id} fitness = {best.fitness:.4f}")
+
+        if gen == generations:
+            break
+
+        wins = []
+        while len(wins) < pop_size:
+            wins += make_tournament_backets(population, size)
+
+        new_population = []
+
+        group = 1
+
+        while len(new_population) < pop_size and len(wins) >= 2:
+
+            winner1 = rd.choice(wins)
+            wins.remove(winner1)
+
+            winner2 = rd.choice(wins)
+            wins.remove(winner2)
+
+            child1, child2 = make_child(winner1, winner2, group,mutation_rate, mutation_max_power)
+
+            new_population += [child1, child2]
+            group += 2
+
+        population = new_population
+
+
+
         
 
 
