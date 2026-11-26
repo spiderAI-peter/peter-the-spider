@@ -617,6 +617,7 @@ def evaluate(individual): # this should evaluate the hights and distances and if
         if fell:
             break
 
+    end = gps.getValues()
 
 
 
