@@ -516,6 +516,8 @@ cycles = 25 #  this is defining the number of cycles the frames should go thorgh
 generations = 10
 fall_hight = 0.10 #this will define if the spider has fallen over
 
+frame_steps = max(1, int(frame_time * 1000 / timestep)) # this should determin the number of steps that the spider takes per frame 
+
 
 
 
