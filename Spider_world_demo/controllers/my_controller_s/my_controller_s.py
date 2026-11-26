@@ -619,6 +619,10 @@ def evaluate(individual): # this should evaluate the hights and distances and if
 
     end = gps.getValues()
 
+    individual.distance = end[0] - start[0]
+
+    return True
+
 
 
 # =========================================================
