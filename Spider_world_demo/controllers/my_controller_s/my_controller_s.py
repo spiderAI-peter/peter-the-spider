@@ -524,6 +524,10 @@ joint_order = [f"{leg}_{joint}" for leg in all_legs for joint in joint_types] # 
 
 standing_pose = {} # this is makeing an empty directory for the standing pose 
 
+for leg in right_legs:
+    standing_pose[f"{leg}_hip_joint"] = TARGET_ANGLES["R"]["hip_joint"] # this is adding the right hip joint into the standing pose directory 
+    standing_pose[f"{leg}_thigh_joint"] = right_thigh # this adds right thight to the standing pose directory 
+    standing_pose[f"{leg}_knee_joint"] = right_knee # this adds right knee to the standing pose directory 
 
 
 # =========================================================
