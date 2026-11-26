@@ -529,6 +529,11 @@ for leg in right_legs:
     standing_pose[f"{leg}_thigh_joint"] = right_thigh # this adds right thight to the standing pose directory 
     standing_pose[f"{leg}_knee_joint"] = right_knee # this adds right knee to the standing pose directory 
 
+for leg in left_legs:
+    standing_pose[f"{leg}_hip_joint"] = TARGET_ANGLES["L"]["hip_joint"] # this is adding the left hip joint into the standing pose directory 
+    standing_pose[f"{leg}_thigh_joint"] = left_thigh # this adds left thight to the standing pose directory 
+    standing_pose[f"{leg}_knee_joint"] = left_knee # this adds left knee to the standing pose directory 
+
 
 # =========================================================
 # sim end
