@@ -509,6 +509,193 @@ for i in range(1, 25):
 
 #also when doing the moving remember 12 frames will be done 25 times for now 
 
+gene_amplitude = 0.5 # this deffines the exstent of the legs movement
+frame_time = 0.25 # this diefines how long the frame lasts 
+cycles = 25 #  this is defining the number of cycles the frames should go thorgh 
+
+generations = 10
+fall_hight = 0.10 #this will define if the spider has fallen over
+
+frame_steps = max(1, int(frame_time * 1000 / timestep)) # this should determin the number of steps that the spider takes per frame 
+
+joint_types = ["hip_joint","thigh_joint","knee_joint"] # this is defining the types of joints 
+
+joint_order = [f"{leg}_{joint}" for leg in all_legs for joint in joint_types] # this is deffining if the legs and joint are in joint types and in all legs 
+
+standing_pose = {} # this is makeing an empty directory for the standing pose 
+
+for leg in right_legs:
+    standing_pose[f"{leg}_hip_joint"] = TARGET_ANGLES["R"]["hip_joint"] # this is adding the right hip joint into the standing pose directory 
+    standing_pose[f"{leg}_thigh_joint"] = right_thigh # this adds right thight to the standing pose directory 
+    standing_pose[f"{leg}_knee_joint"] = right_knee # this adds right knee to the standing pose directory 
+
+for leg in left_legs:
+    standing_pose[f"{leg}_hip_joint"] = TARGET_ANGLES["L"]["hip_joint"] # this is adding the left hip joint into the standing pose directory 
+    standing_pose[f"{leg}_thigh_joint"] = left_thigh # this adds left thight to the standing pose directory 
+    standing_pose[f"{leg}_knee_joint"] = left_knee # this adds left knee to the standing pose directory 
+
+for motor in motors.values():
+    motor.setVelocity(motor.getMaxVelocity()) # this should set the moters volocity and make it moveing 
+
+spider_node = robot.getSelf() if hasattr(robot, "getSelf") else None # this is setting up the spider node it is ment to chech if robot and get slef exsits
+
+if spider_node is not None: # this is suposed to run the following commands if the spider node is not none
+        translation_filed = spider_node.getField("translation") # this is suposed to define the colome type and array
+        roatation_filed = spider_node.getField("rotation")# this is getting values out of the colum type to get a filed 
+        start_translation = translation_filed.getSFVec3f() # this should recive the current 3D position of the spider 
+        start_roatation = roatation_filed.getSFRotation() #this should fet the rotation of the robot 
+
+def reset_robot(): # this function should reset the robot 
+    if spider_node is not None:
+        translation_filed.setSFVec3f(start_translation) # this should update the 3d position of the robot 
+        roatation_filed.setSFRotation(start_roatation)# this will also update the robots 3d position
+        spider_node.resetPhysics()# this should call all the objects such as velocity 
+
+def get_frames(individual): #this function should get the frames for the robot 
+
+    genes = individual.genes # this should get the indervidual geans 
+    if isinstance(genes, tuple): # this checks wether the geans varible is stored and if not dose it 
+        genes = genes[0]
+    return genes
+
+def clamp_to_limits(motor, angle):# i think this should set the limits 
+    low = motor.getMinPosition() # this gets the minmum position that the moter can achive 
+    high =  motor.getMaxPosition() # this should get the moters maximum position 
+
+    if low == 0 and high == 0: # this is saying if the low and high = 0 it will retern angle.
+        return angle
+
+    return max(low, min(high, angle))#this is suposed to keep the angle between the low and high of the angle 
+
+def apply_frame(frame): # this should apply the frames 
+    for name, gene in zip(joint_order, frame): #  this loops throgh both lists and pareing each moter name 
+        if name in motors:
+            angle = standing_pose[name] + gene * gene_amplitude # this is determing the angle of the legs.
+            motors[name].setPosition(clamp_to_limits(motors[name], angle)) # this is setting the position of the moters by useing the clamp_to_limits function
+
+def go_to_standing(secounds=1.5):
+     
+    for name, angle in standing_pose.items():
+         if name in motors:
+             motors[name].setPosition(angle)
+
+    for _ in range(int(secounds * 1000 / timestep)):
+        if robot.step(timestep) == -1:
+            return False
+    return True
+
+def evaluate(individual): # this should evaluate the hights and distances and if it fell
+    individual.genes = get_frames(individual)
+
+    individual.hights = []
+    individual.distance = []
+
+    if not go_to_standing():
+        return False
+
+    start = gps.getValues()
+    fell = False
+
+    for cycle in range(cycles):
+        for frame in individual.genes:
+
+            apply_frame(frame)
+
+            for _ in range(frame_steps):
+
+                if robot.step(timestep) == -1:
+                    return False
+
+            z = gps.getValues()[2]
+
+            individual.hights.append(z)
+
+            if z < fall_hight:
+                 fell = True
+                 break
+
+        if fell:
+            break
+
+    end = gps.getValues()
+
+    individual.distance = end[0] - start[0]
+
+    return True
+
+pop_size = len(population)
+best = None
+
+for gen in range(generations):
+
+    print("")
+    print("==============================================")
+    print(f"GENERATION {gen + 1}")
+    print("==============================================")
+
+    for individual in population:
+
+        reset_robot()
+
+        if not evaluate(individual):
+            exit()
+
+        individual.fitness_f()
+
+        print(
+            f"{individual.id} | "
+            f"distance traveld = {individual.distance:.3f} m | "
+            f"fitness = {individual.fitness:.4f}"
+        )
+
+        best = max(population, key=lambda s: s.fitness)
+        print(f"Best of this generation: {best.id} fitness = {best.fitness:.4f}")
+
+        if gen == generations:
+            break
+
+        wins = []
+        while len(wins) < pop_size:
+            wins += make_tournament_backets(population, size)
+
+        new_population = []
+
+        group = 1
+
+        while len(new_population) < pop_size and len(wins) >= 2:
+
+            winner1 = rd.choice(wins)
+            wins.remove(winner1)
+
+            winner2 = rd.choice(wins)
+            wins.remove(winner2)
+
+            child1, child2 = make_child(winner1, winner2, group,mutation_rate, mutation_max_power)
+
+            new_population += [child1, child2]
+            group += 2
+
+        population = new_population
+
+print("") # this in throy should display the generations it isnt working idk if this is because of the error leding back to the GA 
+print("==============================================")
+print(f"REPLAYING BEST: {best.id}  fitness = {best.fitness:.4f}")
+print("==============================================")
+
+reset_robot()
+go_to_standing()
+
+while True:
+    for frame in get_frames(best):
+        apply_frame(frame)
+        for _ in range(frame_steps):
+            if robot.step(timestep) == -1:
+                exit
+
+
+        
+
+
 # =========================================================
 # sim end
 # =========================================================
