@@ -599,14 +599,14 @@ def evaluate(individual): # this should evaluate the hights and distances and if
     for cycle in range(cycles): # this lloop repetes 25 times 
         for frame in individual.genes: # this repets thorgh the 12 frames 
 
-            apply_frame(frame)
+            apply_frame(frame) # moves all 24 joints on the frames 
 
-            for _ in range(frame_steps):
+            for _ in range(frame_steps):# this allows for the legs to aculle move 
 
                 if robot.step(timestep) == -1:
                     return False
 
-            z = gps.getValues()[2]
+            z = gps.getValues()[2] # this reads the bodys hight 
 
             individual.hights.append(z)
 
