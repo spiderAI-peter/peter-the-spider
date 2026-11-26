@@ -428,7 +428,7 @@ def tournament (backets):
     #this just find location of highest in the list and then collects 
     #same number as the full individual infomation 
     #more dumb - we get all the extra stuff like genes and parents
-    winner = backets(fit_values(highest))
+    winner = backets(fit_values.index(highest))
     return winner
 
 #given 2 partents and mix their genes around for each frame 
