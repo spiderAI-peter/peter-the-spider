@@ -567,6 +567,11 @@ def clamp_to_limits(motor, angle):# i think this should set the limits
 
     return max(low, min(high, angle))
 
+def apply_frame(frame): # this should apply the frames 
+    for name, gene in zip(joint_order, frame):
+        if name in motors:
+            angle = standing_pose[name] + gene * gene_amplitude
+            motors[name].setPosition(clamp_to_limits(motors[name], angle))
 
 
 
