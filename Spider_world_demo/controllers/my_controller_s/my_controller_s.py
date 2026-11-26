@@ -520,6 +520,10 @@ frame_steps = max(1, int(frame_time * 1000 / timestep)) # this should determin t
 
 joint_types = ["hip_joint","thigh_joint","knee_joint"] # this is defining the types of joints 
 
+joint_order = [f"{leg}_{joint}" for leg in all_legs for joint in joint_types] # this is deffining if the legs and joint are in joint types and in all legs 
+
+
+
 
 
 # =========================================================
