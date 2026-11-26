@@ -593,11 +593,11 @@ def evaluate(individual): # this should evaluate the hights and distances and if
     if not go_to_standing():# stands the spider up
         return False
 
-    start = gps.getValues()
+    start = gps.getValues() # this is for recording the x,y and z axis and flags saying if it hasnt fallen yet
     fell = False
 
-    for cycle in range(cycles):
-        for frame in individual.genes: 
+    for cycle in range(cycles): # this lloop repetes 25 times 
+        for frame in individual.genes: # this repets thorgh the 12 frames 
 
             apply_frame(frame)
 
