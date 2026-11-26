@@ -522,7 +522,7 @@ joint_types = ["hip_joint","thigh_joint","knee_joint"] # this is defining the ty
 
 joint_order = [f"{leg}_{joint}" for leg in all_legs for joint in joint_types] # this is deffining if the legs and joint are in joint types and in all legs 
 
-
+standing_pose = {} # this is makeing an empty directory for the standing pose 
 
 
 
