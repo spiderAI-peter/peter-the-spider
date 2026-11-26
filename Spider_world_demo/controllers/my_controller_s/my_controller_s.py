@@ -610,14 +610,14 @@ def evaluate(individual): # this should evaluate the hights and distances and if
 
             individual.hights.append(z)
 
-            if z < fall_hight:
+            if z < fall_hight: # this is supposed to make sure that the spider dose not fall over
                  fell = True
                  break
 
         if fell:
             break
 
-    end = gps.getValues()
+    end = gps.getValues() # these reads the final position
 
     individual.distance = end[0] - start[0]
 
