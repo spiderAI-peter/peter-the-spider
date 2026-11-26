@@ -562,10 +562,10 @@ def clamp_to_limits(motor, angle):# i think this should set the limits
     low = motor.getMinPosition() # this gets the minmum position that the moter can achive 
     high =  motor.getMaxPosition() # this should get the moters maximum position 
 
-    if low == 0 and high == 0:
+    if low == 0 and high == 0: # this is saying if the low and high = 0 it will retern angle.
         return angle
 
-    return max(low, min(high, angle))
+    return max(low, min(high, angle))#this is suposed to keep the angle between the low and high of the angle 
 
 def apply_frame(frame): # this should apply the frames 
     for name, gene in zip(joint_order, frame):
@@ -677,7 +677,7 @@ for gen in range(generations):
 
         population = new_population
 
-print("")
+print("") # this in throy should display the generations it isnt working idk if this is because of the error leding back to the GA 
 print("==============================================")
 print(f"REPLAYING BEST: {best.id}  fitness = {best.fitness:.4f}")
 print("==============================================")
