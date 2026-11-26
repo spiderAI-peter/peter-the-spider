@@ -584,6 +584,40 @@ def go_to_standing(secounds=1.5):
             return False
     return True
 
+def evaluate(individual):
+    individual.genes = get_frames(individual)
+
+    individual.hights = []
+    individual.distance = []
+
+    if not go_to_standing():
+        return False
+
+    start = gps.getValues()
+    fell = False
+
+    for cycle in range(cycles):
+        for frame in individual.genes:
+
+            apply_frame(frame)
+
+            for _ in range(frame_steps):
+
+                if robot.step(timestep) == -1:
+                    return False
+
+            z = gps.getValues()[2]
+
+            individual.hights.append(z)
+
+            if z < fall_hight:
+                 fell = True
+                 break
+
+        if fell:
+            break
+
+
 
 
 # =========================================================
