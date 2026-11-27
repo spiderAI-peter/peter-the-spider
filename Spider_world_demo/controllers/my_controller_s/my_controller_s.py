@@ -423,12 +423,12 @@ class spider ():
     
         #how well the hight worked. 0 is not great and 1 is stedy
         hight_wrong = sum(abs(h - self.starting_z) for h in self.hights) / len(self.hights)
-        hight_score = max(0.0, 1.0 - hight_wrong / self.fall_alowed)
+        hight_score = max(0.0, 1.0 - hight_wrong / fall_alowed)
     
         #gets the fitness then give penelty for falling
-        score = self.inprovement_progress * progress + self.inprovement_height * hight_score
+        score = self.inprovement_progress * progress + inprovement_height * hight_score
         if self.fallen:
-         score *= self.fall_penelty
+         score *= fall_penelty
     
         self.fitness = score
 
