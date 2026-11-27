@@ -351,6 +351,17 @@ class spider ():
         #for fitness evaluation
         self.hights  = []
         self.distance = 0
+        self.starting_z = 0.3
+        self.start_distance = 1.0
+        self.fallen = False
+
+        self.target_x_y_cords = [5.0,0.0]
+        self.hight_z_cords = 2
+        self.fall_alowed = 0.09
+        self.inprovement_progress = 10.0
+        self.inprovement_height = 2.0
+        self.fall_penelty = 0.1
+
                 
         self.fitness = 0
         
@@ -393,11 +404,28 @@ class spider ():
 #this is not done and is almost meaninngless we need a proper one
 #DO SOMETHING
     def fitness_f(self):
-        distance = self.distance
-        hights = self.hights
-        hight_score = 1 - (max(hights) - min(hights))
-        
-        self.fitness = distance * hight_score
+        #if nothings recorded yet it doesn't crash
+        if len(self.hights) == 0:
+            self.fitness = 0
+            return
+    
+        #starting distance to the target
+        start_distance = max(self.start_distance, 0.000001)
+
+        #how well it did. 0 not good, 1 did what it needed to
+        progress =max(0.0, start_distance - self.distance) / start_distance
+    
+        #how well the hight worked. 0 is not great and 1 is stedy
+        hight_wrong = sum(abs(h - self.starting_z) for h in self.hights) / len(self.hights)
+        hight_score = max(0.0, 1.0 - hight_wrong / self.fall_alowed)
+    
+        #gets the fitness then give penelty for falling
+        score = self.inprovement_progress * progress + self.inprovement_height * hight_score
+        if self.fallen:
+         score *= self.fall_penelty
+    
+        self.fitness = score
+
 
 
 #make size x for testing
