@@ -426,7 +426,7 @@ class spider ():
         hight_score = max(0.0, 1.0 - hight_wrong / fall_alowed)
     
         #gets the fitness then give penelty for falling
-        score = self.inprovement_progress * progress + inprovement_height * hight_score
+        score = inprovement_progress * progress + inprovement_height * hight_score
         if self.fallen:
          score *= fall_penelty
     
