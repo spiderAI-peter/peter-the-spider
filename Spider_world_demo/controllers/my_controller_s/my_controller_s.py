@@ -419,17 +419,7 @@ def make_tournament_backets (population, size):
 #when give the amount of individules find the one with highest fit 
 #value and selects them to win with the highest number
 def tournament (backets):
-    fit_values = []
-    for individual in backets:
-        fit_values.append (individual.fitness)
-    
-        
-    highest = max(fit_values)
-    #this just find location of highest in the list and then collects 
-    #same number as the full individual infomation 
-    #more dumb - we get all the extra stuff like genes and parents
-    winner = backets(fit_values.index(highest))
-    return winner
+    return max(backets, key=lambda individual: individual.fitness)
 
 #given 2 partents and mix their genes around for each frame 
 def crossbreeding (par1, par2):
