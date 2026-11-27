@@ -326,6 +326,18 @@ while robot.step(timestep) != -1:
 # GA start 
 # =========================================================
 
+target_x_y_cords = [5.0,0.0]
+hight_z_cords = 2
+fall_alowed = 0.09
+inprovement_progress = 10.0
+inprovement_height = 2.0
+fall_penelty = 0.1
+
+def distance_from_target(pos):
+    flat = [i for i in range(3) if i != hight_z_cords]
+    return math.sqrt(sum((pos[i] - t) ** 2 for i, t in zip(flat, target_x_y_cords)))
+
+
 class spider ():
 
 #this is what the individual "creature" holds
@@ -351,6 +363,11 @@ class spider ():
         #for fitness evaluation
         self.hights  = []
         self.distance = 0
+        self.starting_z = 0.3
+        self.start_distance = 1.0
+        self.fallen = False
+
+
                 
         self.fitness = 0
         
@@ -393,11 +410,28 @@ class spider ():
 #this is not done and is almost meaninngless we need a proper one
 #DO SOMETHING
     def fitness_f(self):
-        distance = self.distance
-        hights = self.hights
-        hight_score = 1 - (max(hights) - min(hights))
-        
-        self.fitness = distance * hight_score
+        #if nothings recorded yet it doesn't crash
+        if len(self.hights) == 0:
+            self.fitness = 0
+            return
+    
+        #starting distance to the target
+        start_distance = max(self.start_distance, 0.000001)
+
+        #how well it did. 0 not good, 1 did what it needed to
+        progress =max(0.0, start_distance - self.distance) / start_distance
+    
+        #how well the hight worked. 0 is not great and 1 is stedy
+        hight_wrong = sum(abs(h - self.starting_z) for h in self.hights) / len(self.hights)
+        hight_score = max(0.0, 1.0 - hight_wrong / fall_alowed)
+    
+        #gets the fitness then give penelty for falling
+        score = inprovement_progress * progress + inprovement_height * hight_score
+        if self.fallen:
+         score *= fall_penelty
+    
+        self.fitness = score
+
 
 
 #make size x for testing
@@ -499,7 +533,7 @@ for i in range(1, 25):
 
 #also when doing the moving remember 12 frames will be done 25 times for now 
 
-gene_amplitude = 0.5 # this deffines the exstent of the legs movement
+gene_movement = 0.5 # this deffines the exstent of the legs movement
 frame_time = 0.25 # this diefines how long the frame lasts 
 cycles = 25 #  this is defining the number of cycles the frames should go thorgh 
 
@@ -560,74 +594,74 @@ def clamp_to_limits(motor, angle):# i think this should set the limits
 def apply_frame(frame): # this should apply the frames 
     for name, gene in zip(joint_order, frame): #  this loops throgh both lists and pareing each moter name 
         if name in motors:
-            angle = standing_pose[name] + gene * gene_amplitude # this is determing the angle of the legs.
+            angle = standing_pose[name] + gene * gene_movement # this is determing the angle of the legs.
             motors[name].setPosition(clamp_to_limits(motors[name], angle)) # this is setting the position of the moters by useing the clamp_to_limits function
 
 def go_to_standing(secounds=1.5):
      
-    for name, angle in standing_pose.items():
+    for name, angle in standing_pose.items(): # this telles every angle to go back to its starting angle 
          if name in motors:
              motors[name].setPosition(angle)
 
-    for _ in range(int(secounds * 1000 / timestep)):
+    for _ in range(int(secounds * 1000 / timestep)):# this telles the spider to run the simulation every 1.5 seconds 
         if robot.step(timestep) == -1:
             return False
     return True
 
 def evaluate(individual): # this should evaluate the hights and distances and if it fell
-    individual.genes = get_frames(individual)
+    individual.genes = get_frames(individual)# this unwraps the genes and saves them back to the spider.
 
-    individual.hights = []
+    individual.hights = [] # clears the spider before the test
     individual.distance = []
 
-    if not go_to_standing():
+    if not go_to_standing():# stands the spider up
         return False
 
-    start = gps.getValues()
+    start = gps.getValues() # this is for recording the x,y and z axis and flags saying if it hasnt fallen yet
     fell = False
 
-    for cycle in range(cycles):
-        for frame in individual.genes:
+    for cycle in range(cycles): # this lloop repetes 25 times 
+        for frame in individual.genes: # this repets thorgh the 12 frames 
 
-            apply_frame(frame)
+            apply_frame(frame) # moves all 24 joints on the frames 
 
-            for _ in range(frame_steps):
+            for _ in range(frame_steps):# this allows for the legs to aculle move 
 
                 if robot.step(timestep) == -1:
                     return False
 
-            z = gps.getValues()[2]
+            z = gps.getValues()[2] # this reads the bodys hight 
 
             individual.hights.append(z)
 
-            if z < fall_hight:
+            if z < fall_hight: # this is supposed to make sure that the spider dose not fall over
                  fell = True
                  break
 
         if fell:
             break
 
-    end = gps.getValues()
+    end = gps.getValues() # these reads the final position
 
     individual.distance = end[0] - start[0]
 
     return True
 
-pop_size = len(population)
-best = None
+pop_size = len(population) # this determins the population size
+best = None # this is the begining of storeing the best spider.
 
-for gen in range(generations):
+for gen in range(generations): # this should repet this code once per generation
 
     print("")
     print("==============================================")
     print(f"GENERATION {gen + 1}")
     print("==============================================")
 
-    for individual in population:
+    for individual in population: #this puts the robot back to the start
 
-        reset_robot()
+        reset_robot() # this runs a test 
 
-        if not evaluate(individual):
+        if not evaluate(individual):# this calls the fitness function
             exit()
 
         individual.fitness_f()
@@ -635,24 +669,24 @@ for gen in range(generations):
         print(
             f"{individual.id} | "
             f"distance traveld = {individual.distance:.3f} m | "
-            f"fitness = {individual.fitness:.4f}"
+            f"fitness = {individual.fitness:.4f}" # this shuld give the distance traveld
         )
 
-        best = max(population, key=lambda s: s.fitness)
+        best = max(population, key=lambda s: s.fitness) # this should give the best population
         print(f"Best of this generation: {best.id} fitness = {best.fitness:.4f}")
 
-        if gen == generations:
+        if gen == generations: # checks if gen == generations an if so then it brakes 
             break
 
         wins = []
-        while len(wins) < pop_size:
+        while len(wins) < pop_size:# makes the wins 
             wins += make_tournament_backets(population, size)
 
-        new_population = []
+        new_population = [] # defines the new poulation
 
         group = 1
 
-        while len(new_population) < pop_size and len(wins) >= 2:
+        while len(new_population) < pop_size and len(wins) >= 2: # this checks the new population against the original and fills it out
 
             winner1 = rd.choice(wins)
             wins.remove(winner1)
