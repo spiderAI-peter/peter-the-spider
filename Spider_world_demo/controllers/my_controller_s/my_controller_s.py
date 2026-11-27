@@ -326,6 +326,18 @@ while robot.step(timestep) != -1:
 # GA start 
 # =========================================================
 
+target_x_y_cords = [5.0,0.0]
+hight_z_cords = 2
+fall_alowed = 0.09
+inprovement_progress = 10.0
+inprovement_height = 2.0
+fall_penelty = 0.1
+
+def distance_from_target(pos):
+    flat = [i for i in range(3) if i != hight_z_cords]
+    return math.sqrt(sum((pos[i] - t) ** 2 for i, t in zip(flat, target_x_y_cords)))
+
+
 class spider ():
 
 #this is what the individual "creature" holds
@@ -355,12 +367,6 @@ class spider ():
         self.start_distance = 1.0
         self.fallen = False
 
-        self.target_x_y_cords = [5.0,0.0]
-        self.hight_z_cords = 2
-        self.fall_alowed = 0.09
-        self.inprovement_progress = 10.0
-        self.inprovement_height = 2.0
-        self.fall_penelty = 0.1
 
                 
         self.fitness = 0
