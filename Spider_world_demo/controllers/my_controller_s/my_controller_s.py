@@ -509,7 +509,7 @@ for i in range(1, 25):
 
 #also when doing the moving remember 12 frames will be done 25 times for now 
 
-gene_amplitude = 0.5 # this deffines the exstent of the legs movement
+gene_movement = 0.5 # this deffines the exstent of the legs movement
 frame_time = 0.25 # this diefines how long the frame lasts 
 cycles = 25 #  this is defining the number of cycles the frames should go thorgh 
 
@@ -570,7 +570,7 @@ def clamp_to_limits(motor, angle):# i think this should set the limits
 def apply_frame(frame): # this should apply the frames 
     for name, gene in zip(joint_order, frame): #  this loops throgh both lists and pareing each moter name 
         if name in motors:
-            angle = standing_pose[name] + gene * gene_amplitude # this is determing the angle of the legs.
+            angle = standing_pose[name] + gene * gene_movement # this is determing the angle of the legs.
             motors[name].setPosition(clamp_to_limits(motors[name], angle)) # this is setting the position of the moters by useing the clamp_to_limits function
 
 def go_to_standing(secounds=1.5):
