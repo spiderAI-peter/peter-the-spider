@@ -350,7 +350,8 @@ class spider ():
 #not add more with fitness not all the stuff we need 
 #again fit function is NOT done
     def __init__(self,generation, number,parent1 = None, parent2 = None,genes = None):
-        self.id=  f"G{generation}-R{number:03d}"
+        self.id=  f"G{generation}-R{number}"
+        #"G1-R10"
         
         self.generation = generation
         
@@ -432,6 +433,26 @@ class spider ():
     
         self.fitness = score
 
+def add_record_fitness(population):
+    total = 0
+    for ind in population:
+       total += ind.fitness
+    
+    return total/len(population)
+
+def find_individual(population,id):
+    find = int(id.rsplit("R", 1)[1])
+    for individual in population:
+        if int(individual.id.rsplit("R", 1)[1]) == find:
+            return individual
+    return None
+
+def fam_tree(population,id):
+    start = find_individual(population,id)
+    if start != None:
+        
+    else:
+        return None
 
 
 #make size x for testing
